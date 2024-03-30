@@ -3,6 +3,7 @@ package domain;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @ApplicationScoped
 public class CandidateService {
@@ -12,5 +13,9 @@ public class CandidateService {
 
     public Candidate save(Candidate candidate) {
         return candidateStorage.save(candidate);
+    }
+
+    public List<Candidate> getAllCandidates() {
+        return candidateStorage.getAllCandidates();
     }
 }

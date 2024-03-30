@@ -8,11 +8,10 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 @QuarkusTest
 class CandidateServiceTest {
@@ -31,6 +30,19 @@ class CandidateServiceTest {
 
         verify(candidateStorage).save(candidate);
         verifyNoMoreInteractions(candidateStorage);
+    }
+
+    @Test
+    void shouldBeFindAllCandidates() {
+        List<Candidate> candidates = Instancio.stream(Candidate.class).limit(10).toList();
+        when(candidateStorage.getAllCandidates()).thenReturn(candidates);
+
+        List<Candidate> result = candidateService.getAllCandidates();
+
+        verify(candidateStorage).getAllCandidates();
+        verifyNoMoreInteractions(candidateStorage);
+
+        assertEquals(candidates, result);
     }
 
 }

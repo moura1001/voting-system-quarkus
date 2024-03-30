@@ -14,4 +14,9 @@ public class CandidateRepositoryStorage implements CandidateStorage {
     public List<Candidate> save(List<Candidate> candidates) {
         return null;
     }
+
+    @Override
+    public List<Candidate> getAllCandidates() {
+        return null;
+    }
 }

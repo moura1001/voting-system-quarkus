@@ -12,4 +12,6 @@ public interface CandidateStorage {
 
         return null;
     }
+
+    List<Candidate> getAllCandidates();
 }
