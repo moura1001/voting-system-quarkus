@@ -18,4 +18,12 @@ public class CandidateService {
     public List<Candidate> getAllCandidates() {
         return candidateStorage.getAllCandidates();
     }
+
+    public Candidate getCandidateById(String id) {
+        Candidate candidate = candidateStorage.getCandidateById(id).orElseThrow(() -> {
+            throw new RuntimeException("candidate " + id + " does not exists");
+        });
+
+        return candidate;
+    }
 }

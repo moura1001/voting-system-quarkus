@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CandidateStorage {
     List<Candidate> save(List<Candidate> candidates);
@@ -14,4 +15,6 @@ public interface CandidateStorage {
     }
 
     List<Candidate> getAllCandidates();
+
+    Optional<Candidate> getCandidateById(String id);
 }

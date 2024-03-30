@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -43,6 +44,43 @@ class CandidateServiceTest {
         verifyNoMoreInteractions(candidateStorage);
 
         assertEquals(candidates, result);
+    }
+
+    @Test
+    void shouldBeFindCandidateById() {
+        Candidate candidate = Instancio.create(Candidate.class);
+
+        when(candidateStorage.getCandidateById(candidate.id())).thenReturn(Optional.of(candidate));
+
+        Candidate result = candidateService.getCandidateById(candidate.id());
+
+        verify(candidateStorage).getCandidateById(candidate.id());
+        verifyNoMoreInteractions(candidateStorage);
+
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void shouldBeThrowsExceptionWhenCandidateIsNotFound() {
+        Candidate candidate = new Candidate(
+                "1a2b3c",
+                Optional.empty(),
+                "",
+                "",
+                "",
+                Optional.empty(),
+                Optional.empty()
+        );
+
+        when(candidateStorage.getCandidateById(candidate.id())).thenReturn(Optional.empty());
+
+        RuntimeException thorwn = assertThrows(RuntimeException.class, () -> {
+            Candidate result = candidateService.getCandidateById(candidate.id());
+        });
+        assertEquals("candidate " + candidate.id() + " does not exists", thorwn.getMessage());
+
+        verify(candidateStorage).getCandidateById(candidate.id());
+        verifyNoMoreInteractions(candidateStorage);
     }
 
 }
