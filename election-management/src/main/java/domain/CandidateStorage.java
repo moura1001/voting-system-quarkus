@@ -5,14 +5,10 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface CandidateStorage {
-    List<Candidate> save(List<Candidate> candidates);
+    void save(List<Candidate> candidates);
 
-    default Candidate save(Candidate candidate) {
-        List<Candidate> candidates = save(List.of(candidate));
-        if (candidates != null && !candidates.isEmpty())
-            return candidates.get(0);
-
-        return null;
+    default void save(Candidate candidate) {
+        save(List.of(candidate));
     }
 
     List<Candidate> getAllCandidates(CandidateQuery query);

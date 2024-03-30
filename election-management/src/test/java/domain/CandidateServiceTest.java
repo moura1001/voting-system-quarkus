@@ -6,7 +6,6 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,6 @@ class CandidateServiceTest {
     private CandidateService candidateService;
 
     @InjectMock
-    @Named("candidateRepositoryStorage")
     private CandidateStorage candidateStorage;
 
     @Test

@@ -11,8 +11,8 @@ public class CandidateService {
     @Named("candidateRepositoryStorage")
     private CandidateStorage candidateStorage;
 
-    public Candidate save(Candidate candidate) {
-        return candidateStorage.save(candidate);
+    public void save(Candidate candidate) {
+        candidateStorage.save(candidate);
     }
 
     public List<Candidate> getAllCandidates() {
