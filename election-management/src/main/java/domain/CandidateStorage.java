@@ -2,6 +2,7 @@ package domain;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CandidateStorage {
     List<Candidate> save(List<Candidate> candidates);
@@ -14,7 +15,14 @@ public interface CandidateStorage {
         return null;
     }
 
-    List<Candidate> getAllCandidates();
+    List<Candidate> getAllCandidates(CandidateQuery query);
 
-    Optional<Candidate> getCandidateById(String id);
+    default List<Candidate> getAllCandidates() {
+        return getAllCandidates(new CandidateQuery.Builder().build());
+    }
+
+    default Optional<Candidate> getCandidateById(String id) {
+        CandidateQuery query = new CandidateQuery.Builder().ids(Set.of(id)).build();
+        return getAllCandidates(query).stream().findFirst();
+    }
 }
