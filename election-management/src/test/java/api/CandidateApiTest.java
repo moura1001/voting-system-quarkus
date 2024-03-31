@@ -13,7 +13,9 @@ import org.mockito.ArgumentCaptor;
 
 import javax.inject.Inject;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -62,5 +64,22 @@ class CandidateApiTest {
         verifyNoMoreInteractions(candidateService);
 
         assertEquals(CandidateResponseDTO.toDTO(candidate), response);
+    }
+
+    @Test
+    void shouldBeListAllCandidates() {
+        List<Candidate> candidates = Instancio.stream(Candidate.class).limit(10).toList();
+        when(candidateService.getAllCandidates()).thenReturn(candidates);
+
+        List<CandidateResponseDTO> result = candidateApi.list();
+
+        verify(candidateService).getAllCandidates();
+        verifyNoMoreInteractions(candidateService);
+
+        List<CandidateResponseDTO> expected = candidates.stream()
+                .map(CandidateResponseDTO::toDTO)
+                .collect(Collectors.toList());
+
+        assertTrue(expected.size() == result.size() && result.containsAll(expected) && expected.containsAll(result));
     }
 }
