@@ -3,6 +3,7 @@ package infra.repository;
 import domain.Candidate;
 import domain.Election;
 import domain.ElectionStorage;
+import io.quarkus.cache.CacheResult;
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.sortedset.SortedSetCommands;
 import org.jboss.logging.Logger;
@@ -23,6 +24,7 @@ public class ElectionRedisRepository implements ElectionStorage {
     }
 
     @Override
+    @CacheResult(cacheName = "memoization")
     public Election getElectionById(String id) {
         LOGGER.info("Retrieving election " + id + " from Redis");
 
