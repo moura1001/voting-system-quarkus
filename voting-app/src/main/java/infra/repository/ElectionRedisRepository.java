@@ -5,6 +5,7 @@ import domain.Election;
 import domain.ElectionStorage;
 import io.quarkus.cache.CacheResult;
 import io.quarkus.redis.datasource.RedisDataSource;
+import io.quarkus.redis.datasource.keys.KeyCommands;
 import io.quarkus.redis.datasource.sortedset.SortedSetCommands;
 import org.jboss.logging.Logger;
 
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class ElectionRedisRepository implements ElectionStorage {
     private static final Logger LOGGER = Logger.getLogger(ElectionRedisRepository.class);
     private final SortedSetCommands<String, String> sortedSetCommands;
+    private final KeyCommands<String> keyCommands;
 
     public ElectionRedisRepository(RedisDataSource redisDataSource) {
         sortedSetCommands = redisDataSource.sortedSet(String.class, String.class);
+        keyCommands = redisDataSource.key(String.class);
     }
 
     @Override
@@ -32,5 +35,13 @@ public class ElectionRedisRepository implements ElectionStorage {
                 .map(s -> new Candidate(s)).collect(Collectors.toList());
 
         return new Election(id, candidates);
+    }
+
+    @Override
+    public List<Election> getAllEctions() {
+        LOGGER.info("Retrieving elections from Redis");
+        return keyCommands.keys("elections:*").stream()
+                .map(id -> getElectionById(id.replace("elections:", "")))
+                .collect(Collectors.toList());
     }
 }
