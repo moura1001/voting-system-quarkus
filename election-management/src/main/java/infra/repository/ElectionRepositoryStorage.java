@@ -34,6 +34,11 @@ public class ElectionRepositoryStorage implements ElectionStorage {
                 .forEach(entityManager::merge);
     }
 
+    @Override
+    public List<Election> getAllElections() {
+        return findAll();
+    }
+
     public List<Election> findAll() {
         Stream<Object[]> stream = entityManager.createNativeQuery("SELECT e.id AS election_id " +
                         "c.id AS candidate_id, c.photo, c.given_name, c.family_name, c.email, c.phone, c.job_title, " +

@@ -3,6 +3,7 @@ package domain;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @ApplicationScoped
 public class ElectionService {
@@ -21,5 +22,9 @@ public class ElectionService {
         Election election = Election.create(candidateService.getAllCandidates());
         electionRepositoryStorage.submit(election);
         electionRedisStorage.submit(election);
+    }
+
+    public List<Election> getAllElections() {
+        return electionRepositoryStorage.getAllElections();
     }
 }

@@ -39,6 +39,11 @@ public class ElectionRedisStorage implements ElectionStorage {
         pubSubCommands.publish("elections", election.id());
     }
 
+    @Override
+    public List<Election> getAllElections() {
+        return null;
+    }
+
     public Election sync(Election election) {
         List<ScoredValue<String>> scoredValues = commands.zrangebyscoreWithScores(
                 "election-" + election.id(),
