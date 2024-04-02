@@ -14,4 +14,12 @@ public class ElectionService {
     public List<Election> getAllEctions() {
         return electionStorage.getAllEctions();
     }
+
+    public void vote(String electionId, String candidateId) {
+        Election election = electionStorage.getElectionById(electionId);
+        election.candidates().stream()
+                .filter(candidate -> candidate.id().equals(candidateId))
+                .findFirst()
+                .ifPresent(candidate -> electionStorage.vote(electionId, candidateId));
+    }
 }

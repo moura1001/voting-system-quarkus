@@ -40,8 +40,14 @@ public class ElectionRedisRepository implements ElectionStorage {
     @Override
     public List<Election> getAllEctions() {
         LOGGER.info("Retrieving elections from Redis");
-        return keyCommands.keys("elections:*").stream()
-                .map(id -> getElectionById(id.replace("elections:", "")))
+        return keyCommands.keys("election-*").stream()
+                .map(id -> getElectionById(id.replace("election-", "")))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void vote(String electionId, String candidateId) {
+        LOGGER.info("Voting into election " + electionId + " for candidate " + candidateId);
+        sortedSetCommands.zincrby("election-"+electionId, 1, candidateId);
     }
 }

@@ -17,4 +17,8 @@ public class ElectionApi {
         return electionService.getAllEctions().stream()
                 .map(ElectionResponseDTO::toDTO).collect(Collectors.toList());
     }
+
+    public void vote(String electionId, String candidateId) {
+        electionService.vote(electionId, candidateId);
+    }
 }
