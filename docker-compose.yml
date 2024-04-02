@@ -34,7 +34,7 @@ services:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:otel:mariadb://database:3306/election-management
       - QUARKUS_REDIS_HOSTS=redis://caching:6379
     labels:
-      - traefik.http.routers.election-management.rule=Host(`vote.dio.localhost`) && PathPrefix(`/api`)
+      - traefik.http.routers.election-management.rule=Host(`vote.dio.localhost`) && PathPrefix(`/api/v1`)
       - traefik.http.routers.election-management.entrypoints=web
 
   voting-app:
@@ -49,7 +49,7 @@ services:
     environment:
       - QUARKUS_REDIS_HOSTS=redis://caching:6379
     labels:
-      - traefik.http.routers.voting-app.rule=Host(`vote.dio.localhost`) && PathPrefix(`/api/voting`)
+      - traefik.http.routers.voting-app.rule=Host(`vote.dio.localhost`) && PathPrefix(`/api/v1/voting`)
       - traefik.http.routers.voting-app.entrypoints=web
 
   result-app:
