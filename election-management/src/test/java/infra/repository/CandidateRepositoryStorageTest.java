@@ -4,7 +4,7 @@ import domain.CandidateStorage;
 import domain.CandidateStorageTest;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,7 +26,7 @@ class CandidateRepositoryStorageTest extends CandidateStorageTest {
         return candidateRepositoryStorage;
     }
 
-    @AfterEach
+    @BeforeEach
     @TestTransaction
     void tearDown() {
         entityManager.createNativeQuery("TRUNCATE TABLE candidate").executeUpdate();
